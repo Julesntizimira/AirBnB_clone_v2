@@ -34,7 +34,10 @@ def do_deploy(archive_path):
     if not res.succeeded:
         return False
     link = "/data/web_static/current"
-    res = sudo('ln -sfn {} {}'.format(file, link))
+    res = sudo('rm -rf {}'.format(link))
+    if not res.succeeded:
+        return False
+    res = sudo('ln -s {} {}'.format(file, link))
     if not res.succeeded:
         return False
     return True
