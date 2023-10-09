@@ -16,14 +16,17 @@ def do_deploy(archive_path):
     res = put(archive_path, "/tmp/{}".format(filename))
     if not res.succeeded:
         return False
-    res = sudo("tar -xzvf /tmp/{} -C /data/web_static/releases/"
-               .format(filename))
+    token = filename.split('.')
+    file = "/data/web_static/releases/{}".format(token[0])
+    res = sudo('mkdir -p {}'.format(file))
+    if not res.succeeded:
+        return False
+    res = sudo("tar -xzf /tmp/{} -C {}".format(filename, file))
     if not res.succeeded:
         return False
     res = sudo('rm /tmp/*.tgz')
     if not res.succeeded:
         return False
-    file = "/data/web_static/releases/web_static/"
     link = "/data/web_static/current"
     res = sudo('ln -sfn {} {}'.format(file, link))
     if not res.succeeded:
