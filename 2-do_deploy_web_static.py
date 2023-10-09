@@ -24,9 +24,10 @@ def do_deploy(archive_path):
     res = sudo("tar -xzf /tmp/{} -C {}".format(filename, file))
     if not res.succeeded:
         return False
-    res = sudo('rm /tmp/*.tgz')
+    res = sudo('rm /tmp/{}'.format(filename))
     if not res.succeeded:
         return False
+    res = sudo('mv {}/web_static/* {}'.format(file, file))
     link = "/data/web_static/current"
     res = sudo('ln -sfn {} {}'.format(file, link))
     if not res.succeeded:
