@@ -1,34 +1,31 @@
 #!/usr/bin/python3
-from fabric.api import put, run, local, env
-from os import path
+''' define do_deploy() '''
+from fabric.api import *
+import os
 
 
-env.hosts = ["54.90.32.25", "100.25.222.248"]
+env.hosts = ["ubuntu@54.90.32.25", "ubuntu@100.25.222.248"]
 
 
 def do_deploy(archive_path):
-    """Fabric script that distributes
-    an archive to your web server"""
-
-    if not path.exists(archive_path):
+    ''' that distributes an archive to your web servers '''
+    if not os.path.exists(archive_path):
         return False
-    try:
-        tgzfile = archive_path.split("/")[-1]
-        print(tgzfile)
-        filename = tgzfile.split(".")[0]
-        print(filename)
-        pathname = "/data/web_static/releases/" + filename
-        put(archive_path, '/tmp/')
-        run("mkdir -p /data/web_static/releases/{}/".format(filename))
-        run("tar -zxvf /tmp/{} -C /data/web_static/releases/{}/"
-            .format(tgzfile, filename))
-        run("rm /tmp/{}".format(tgzfile))
-        run("mv /data/web_static/releases/{}/web_static/*\
-            /data/web_static/releases/{}/".format(filename, filename))
-        run("rm -rf /data/web_static/releases/{}/web_static".format(filename))
-        run("rm -rf /data/web_static/current")
-        run("ln -s /data/web_static/releases/{}/ /data/web_static/current"
-            .format(filename))
-        return True
-    except Exception as e:
+    args = archive_path.split("/")
+    filename = args[-1]
+    res = put(archive_path, "/tmp/{}".format(filename))
+    if not res.succeeded:
         return False
+    res = sudo("tar -xzvf /tmp/{} -C /data/web_static/releases/"
+               .format(filename))
+    if not res.succeeded:
+        return False
+    res = sudo('rm /tmp/*.tgz')
+    if not res.succeeded:
+        return False
+    file = "/data/web_static/releases/web_static/"
+    link = "/data/web_static/current"
+    res = sudo('ln -sfn {} {}'.format(file, link))
+    if not res.succeeded:
+        return False
+    return True
