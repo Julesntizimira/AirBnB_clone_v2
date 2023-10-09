@@ -30,6 +30,7 @@ def do_clean(number=0):
         [archives.pop() for i in range(number)]
         [run("rm -rf ./{}".format(a)) for a in archives]
 
+
 def do_deploy(archive_path):
     ''' that distributes an archive to your web servers '''
     if not os.path.exists(archive_path):
