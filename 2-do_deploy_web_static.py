@@ -11,33 +11,20 @@ def do_deploy(archive_path):
     ''' that distributes an archive to your web servers '''
     if not os.path.exists(archive_path):
         return False
-    args = archive_path.split("/")
-    filename = args[-1]
-    res = put(archive_path, "/tmp/{}".format(filename))
-    if not res.succeeded:
+    try:
+        args = archive_path.split("/")
+        filename = args[-1]
+        put(archive_path, "/tmp/{}".format(filename))
+        token = filename.split('.')
+        file = "/data/web_static/releases/{}".format(token[0])
+        sudo('mkdir -p {}'.format(file))
+        sudo("tar -xzf /tmp/{} -C {}".format(filename, file))
+        sudo('rm /tmp/{}'.format(filename))
+        sudo('mv {}/web_static/* {}'.format(file, file))
+        sudo('rm -rf {}/web_static/'.format(file))
+        link = "/data/web_static/current"
+        sudo('rm -rf {}'.format(link))
+        sudo('ln -s {} {}'.format(file, link))
+        return True
+    except Exception:
         return False
-    token = filename.split('.')
-    file = "/data/web_static/releases/{}".format(token[0])
-    res = sudo('mkdir -p {}'.format(file))
-    if not res.succeeded:
-        return False
-    res = sudo("tar -xzf /tmp/{} -C {}".format(filename, file))
-    if not res.succeeded:
-        return False
-    res = sudo('rm /tmp/{}'.format(filename))
-    if not res.succeeded:
-        return False
-    res = sudo('mv {}/web_static/* {}'.format(file, file))
-    if not res.succeeded:
-        return False
-    res = sudo('rm -rf {}/web_static/'.format(file))
-    if not res.succeeded:
-        return False
-    link = "/data/web_static/current"
-    res = sudo('rm -rf {}'.format(link))
-    if not res.succeeded:
-        return False
-    res = sudo('ln -s {} {}'.format(file, link))
-    if not res.succeeded:
-        return False
-    return True
