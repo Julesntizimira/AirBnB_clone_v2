@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 '''a script that starts a Flask web application:'''
-from flask import Flask
+from flask import Flask, jsonify
 
 
 app = Flask(__name__)
@@ -34,12 +34,10 @@ def python_display(text='is cool'):
     return f'Python {text}'
 
 
-@app.route('/number/<n>', strict_slashes=False)
-def n_display(n):
-    '''display \'n is a numbe\' only if n is an integer'''
-    n = eval(n)
-    if type(n) is int:
-        return f'{n} is a number'
+@app.route("/number/<int:n>", strict_slashes=False)
+def number_n(n):
+    """/number/<n>: display n is a number only if n is an integer"""
+    return "{} is a number".format(n)
 
 
 if __name__ == '__main__':
