@@ -18,7 +18,7 @@ class State(BaseModel, Base):
             "City",
             cascade="all, delete-orphan",
             backref="state")
-    if env_val == 'db':
+    if env_val != 'db':
         @property
         def cities(self):
             """Returns the list of City instances with
