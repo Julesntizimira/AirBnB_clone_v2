@@ -83,3 +83,9 @@ class DBStorage:
                 expire_on_commit=False)
         ScopedSessionFactory = scoped_session(SessionFactory)
         self.__session = ScopedSessionFactory()
+
+    def close(self):
+        ''' call remove() method on the private session attribute
+            (self.__session) or close() on the class
+        '''
+        self.__session.remove()
