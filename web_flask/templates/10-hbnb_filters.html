@@ -3,8 +3,8 @@
 	<head>
 		<title>AirBnB clone</title>
 
-		<link rel="shortcut icon" href="images/icon.ico" >
-
+		<link rel="shortcut icon" href="../static/images/icon.ico" >
+		
 		<link rel="stylesheet" href="../static/styles/4-common.css"/>
 		<link rel="stylesheet" href="../static/styles/3-header.css"/>
 		<link rel="stylesheet" href="../static/styles/3-footer.css"/>
@@ -19,25 +19,28 @@
 				<button>Search</button>
 				<div class="locations">
 					<h3>States</h3>
-					<H4>&nbsp;</H4>
+					<h4>&nbsp;</h4>
 					<ul class="popover">
-						{% for state in states.values()|sort(attribute='name') %}
+					{% for key1, state in states.items() %}
 						<li><h2>{{ state.name }}</h2>
 							<ul>
-								{% for city in state.cities|sort(attribute='name') %}
-								<li><h4>{{ city.name }}</h4></li>
-								{% endfor %}
-							</ul></li>
-						{% endfor %}
+							{% for key2, city in cities.items() %}
+								{% if state.id == city.state_id %}
+									<li><h4>{{ city.name }}</h4></li>
+								{% endif %}
+							{% endfor %}
+							</ul>
+						</li>
+					{% endfor %}
 					</ul>
 				</div>
 				<div class="amenities">
 					<h3>Amenities</h3>
-					<H4>&nbsp;</H4>
+					<h4>&nbsp;</h4>
 					<ul class="popover">
-						{% for amenity in amenities.values()|sort(attribute='name') %}
+					{% for key3, amenity in amenities.items() %}
 						<li><h4>{{ amenity.name }}</h4></li>
-						{% endfor %}
+					{% endfor %}
 					</ul>
 				</div>
 

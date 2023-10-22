@@ -11,12 +11,14 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.route("/hbnb_filters")
-def hbnb_filters():
+@app.route("/hbnb")
+def hbnb():
     """ """
     states = storage.all(State)
     amenities = storage.all(State)
-    return render_template("10-hbnb_filters.html", states=states, amenities=amenities)
+    places = storage.all(Place)
+    return render_template("100-hbnb.html",
+                           states=states, amenities=amenities, places=places)
 
 
 @app.teardown_appcontext

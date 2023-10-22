@@ -18,17 +18,18 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
+.amenities {
 	display: inline;
 	vertical-align: middle;
 	height: 100%;
 	float: left;
-    width: 25%;
-
+	width: 25%;
 	line-height: 20px;
 }
 
 .popover {
+	position: relative;
+	z-index: 1000;
 	list-style-type: none;
 	display: none;
 	background-color: #FAFAFA;
@@ -40,8 +41,7 @@
 
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
-
-
+	
 	max-height: 300px;
 	overflow-y: auto;
 }
@@ -50,7 +50,7 @@
 	display: inline-block;
 }
 
-.filter_amenities:hover .popover {
+.amenities:hover .popover {
 	display: inline-block;
 }
 
