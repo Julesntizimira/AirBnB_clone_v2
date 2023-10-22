@@ -5,10 +5,10 @@
 
 		<link rel="shortcut icon" href="images/icon.ico" >
 
-		<link rel="stylesheet" href="{{ url_for('static', 'styles/4-common.css') }}"/>
-		<link rel="stylesheet" href="{{ url_for('static', 'styles/3-header.css') }}"/>
-		<link rel="stylesheet" href="{{ url_for('static', 'styles/3-footer.css') }}"/>
-		<link rel="stylesheet" href="{{ url_for('static', 'styles/6-filters.css') }}"/>
+		<link rel="stylesheet" href="../static/styles/4-common.css"/>
+		<link rel="stylesheet" href="../static/styles/3-header.css"/>
+		<link rel="stylesheet" href="../static/styles/3-footer.css"/>
+		<link rel="stylesheet" href="../static/styles/6-filters.css"/>
 	</head>
     <body>
 		<header>
@@ -19,6 +19,7 @@
 				<button>Search</button>
 				<div class="locations">
 					<h3>States</h3>
+					<H4>&nbsp;</H4>
 					<ul class="popover">
 						{% for state in states.values()|sort(attribute='name') %}
 						<li><h2>{{ state.name }}</h2>
@@ -32,6 +33,7 @@
 				</div>
 				<div class="amenities">
 					<h3>Amenities</h3>
+					<H4>&nbsp;</H4>
 					<ul class="popover">
 						{% for amenity in amenities.values()|sort(attribute='name') %}
 						<li><h4>{{ amenity.name }}</h4></li>

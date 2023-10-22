@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ script that starts a Flask web application """
 
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 from models import storage
 from models.state import State
 from models.amenity import Amenity
@@ -12,7 +12,7 @@ app.url_map.strict_slashes = False
 
 
 @app.route("/hbnb_filters")
-def cities_list():
+def hbnb_filters():
     """ """
     states = storage.all(State)
     amenities = storage.all(State)
